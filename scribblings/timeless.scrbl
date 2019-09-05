@@ -1,14 +1,16 @@
 #lang scribble/manual
 @require[@for-label[timeless
-                    racket/base]]
+                    racket]]
 
 @title{timeless}
 @author[(author+email "yanyingwang" "yanyingwang1@gmail.com")]
-
 @defmodule[timeless]
 
 
-extend srfi 19/time, @hyperlink["https://gitlab.com/yanyingwang/timeless" "source code"]
+a useful time library, is splited from @hyperlink["https://gitlab.com/yanyingwang/chive" "chive"] and built on the top of srfi 19/time.
+
+@hyperlink["https://gitlab.com/yanyingwang/timeless" "source code"]
+
 
 
 
@@ -16,8 +18,9 @@ extend srfi 19/time, @hyperlink["https://gitlab.com/yanyingwang/timeless" "sourc
 
 
 
-@section{time
-}
+
+@section{Procedure Reference}
+
 @defthing[unix-epoch-time time?]{
 returns the unix epoch time, which is @italic{1970-01-01T00:00:00Z}.
 }
@@ -173,7 +176,8 @@ an alias procedure of @racket[time-utc->date->string].
 }
 
 
-@bold{Examples:}
+@section{Example}
+
 @codeblock[#:keep-lang-line? #f]|{
 
 (require timeless)
