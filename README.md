@@ -1,3 +1,4 @@
 timeless
 ========
-README text here.
+
+https://docs.racket-lang.org/timeless/index.html
