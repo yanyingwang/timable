@@ -1,15 +1,23 @@
+#lang racket/base
 
-(require gregor)
+
+(require gregor
+         racket/contract)
 
 (provide current-date
          current-datetime
          current-datetime-tz
-         current-moment)
+         current-moment
+         (contract-out [->utc-offset/hours (-> moment? number?)]))
 
-(define-syntax current-date (make-rename-transformer #'today))
-(define-syntax current-datetime (make-rename-transformer #'now))
-(define-syntax current-datetime-tz (make-rename-transformer #'now/moment))
-(define-syntax current-moment (make-rename-transformer #'now/moment))
+
+(define (current-date) (today))
+(define (current-datetime) (now))
+(define (current-datetime-tz) (now/moment))
+(define (current-moment) (now/moment))
 
 (define (->utc-offset/hours moment)
-  (/ (->utc-offset moment)) 3600)
+  (let ([secs (->utc-offset moment)])
+    (if (= secs 0)
+        0
+        (/ secs 3600))))

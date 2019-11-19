@@ -1,4 +1,4 @@
-#lang racket
+#lang racket/base
 
 (module+ test
   (require rackunit))
@@ -29,6 +29,8 @@
 
 (require srfi/19
          srfi/42
+         racket/string
+         racket/list
          (only-in gregor
                   days-in-month))
 
@@ -43,8 +45,8 @@
          end-date/month
          end-date/year
 
-         previous-date/day yesterday-date
-         previous-date/month last-month-date
+         previous-date/day
+         previous-date/month
 
          parse-date
 
@@ -90,20 +92,16 @@
     (if (time<? t1 t2)
         (and (time>? t t1) (time<? t t2))
         (and (time>? t t2) (time<? t t1)))))
-(define-syntax time-in-range? (make-rename-transformer #'time-in-range<>?))
+(define time-in-range?
+  time-in-range<>?)
 
 (define (time-in-range=<>=? t t1 t2)
   (if (time<? t1 t2)
       (and (time>=? t t1) (time<=? t t2))
       (and (time>=? t t2) (time<=? t t1))))
-(define-syntax time-in-range==? (make-rename-transformer #'time-in-range=<>=?))
+(define (time-in-range==? t t1 t2)
+  (time-in-range=<>=? t t1 t2))
 
-(define (time-in-range=<>? t t1 t2)
-  (if (time=? t1 t2)
-      #t
-      (if (time<? t1 t2)
-          (and (time>=? t t1) (time<? t t2))
-          (and (time>? t t2) (time<=? t t1)))))
 
 (define (time-in-range<>=? t t1 t2)
   (if (time=? t1 t2)
@@ -122,20 +120,20 @@
   (subtract-duration (current-time) (hour-duration i)))
 (define (day-ago/time i)
   (subtract-duration (current-time) (day-duration i)))
-(define-syntax hours-ago/time (make-rename-transformer #'hour-ago/time))
-(define-syntax days-ago/time (make-rename-transformer #'day-ago/time))
+(define (hours-ago/time) (hour-ago/time))
+(define (days-ago/time) (day-ago/time))
 
 (define (hour-ago/date i)
   (time-utc->date (hours-ago/time i)))
 (define (day-ago/date i)
   (time-utc->date (days-ago/time i)))
-(define-syntax hours-ago/date (make-rename-transformer #'hour-ago/date))
-(define-syntax days-ago/date (make-rename-transformer #'day-ago/date))
+(define (hours-ago/date) (hour-ago/date))
+(define (days-ago/date) (day-ago/date))
 
-(define-syntax hour-ago (make-rename-transformer #'hour-ago/date))
-(define-syntax day-ago (make-rename-transformer #'day-ago/date))
-(define-syntax hours-ago (make-rename-transformer #'hour-ago))
-(define-syntax days-ago (make-rename-transformer #'day-ago))
+(define (hour-ago) (hour-ago/date))
+(define (day-ago) (day-ago/date))
+(define (hours-ago) (hour-ago))
+(define (days-ago) (day-ago))
 
 (define hour-from-now/time
   (lambda (i)
@@ -143,20 +141,20 @@
 (define day-from-now/time
   (lambda (i)
     (add-duration (current-time) (day-duration i))))
-(define-syntax hours-from-now/time (make-rename-transformer #'hour-from-now/time))
-(define-syntax days-from-now/time (make-rename-transformer #'day-from-now/time))
+(define (hours-from-now/time) (hour-from-now/time))
+(define (days-from-now/time) (day-from-now/time))
 
 (define hour-from-now/date
   (lambda (i) (time-utc->date (hours-from-now/time i))))
 (define day-from-now/date
   (lambda (i) (time-utc->date (days-from-now/time i))))
-(define-syntax hours-from-now/date (make-rename-transformer #'hour-from-now/date))
-(define-syntax days-from-now/date (make-rename-transformer #'day-from-now/date))
+(define (hours-from-now/date) (hour-from-now/date))
+(define (days-from-now/date) (day-from-now/date))
 
-(define-syntax hour-from-now (make-rename-transformer #'hour-from-now/date))
-(define-syntax day-from-now (make-rename-transformer #'day-from-now/date))
-(define-syntax hours-from-now (make-rename-transformer #'hour-from-now))
-(define-syntax days-from-now (make-rename-transformer #'day-from-now))
+(define (hour-from-now) (hour-from-now/date))
+(define (day-from-now) (day-from-now/date))
+(define (hours-from-now) (hour-from-now))
+(define (days-from-now) (day-from-now))
 
 (define (beginning-date/day d)
   (make-date 0 ;nanosecond
@@ -187,7 +185,7 @@
              1 ;month
              (date-year d)
              (date-zone-offset d)))
-(define-syntax beginning-date (make-rename-transformer #'beginning-date/day))
+(define (beginning-date d) (beginning-date/day d))
 
 (define (end-date/day d)
   (make-date 9999999 ;nanosecond
@@ -216,7 +214,7 @@
              12
              (date-year d)
              (date-zone-offset d)))
-(define-syntax end-date (make-rename-transformer #'end-date/day))
+(define (end-date d) (end-date/day d))
 
 
 (define (previous-date/day d)
@@ -236,7 +234,6 @@
                    month)
                year ; year
                (date-zone-offset d))))
-(define-syntax yesterday-date (make-rename-transformer #'previous-date/day))
 
 (define (previous-date/month d)
   (let* ([day (date-day d)]
@@ -256,7 +253,7 @@
                pmonth ; month
                year ; year
                (date-zone-offset d))))
-(define-syntax last-month-date (make-rename-transformer #'previous-date/month))
+
 
 (define (parse-date str)
   (let* ([t-list (string-split (regexp-replace* #rx"(\\s|/|-|_|:|T)" str " ") " ")]
@@ -310,7 +307,7 @@
 (define (last-oclock/time t)
   ;; todo: "(time-type t)->date"
   (date->time-utc (last-oclock/date (time-utc->date t))))
-(define-syntax last-oclock (make-rename-transformer #'last-oclock/date))
+(define (last-oclock d) (last-oclock/date d))
 
 
 (define date->how-many-days-ago
@@ -331,12 +328,11 @@
   (map (lambda (t) (time-utc->date t))
        (oclocks-between/time (date->time-utc d1)
                              (date->time-utc d2))))
-(define-syntax oclocks-between (make-rename-transformer #'oclocks-between/date))
+(define (oclocks-between d1 d2) (oclocks-between/date d1 d2))
 
 (define (time-utc->date->string t [plt "~c"])
   (date->string (time-utc->date t) plt))
-(define-syntax time-utc->string (make-rename-transformer #'time-utc->date->string))
-
+(define (time-utc->string t [plt "~c"]) (time-utc->date->string t plt))
 
 
 (module+ test

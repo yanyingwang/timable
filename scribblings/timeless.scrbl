@@ -1,6 +1,15 @@
 #lang scribble/manual
-@require[@for-label[timeless
-                    racket]]
+
+@(require (for-label racket/base
+                     timeless)
+           scribble/eval)
+
+@(define timable-eval
+   (make-eval-factory '(timeless
+                        racket/function
+                        racket/list
+                        )))
+
 
 @title{timeless}
 @author[(author+email "yanyingwang" "yanyingwang1@gmail.com")]
@@ -12,14 +21,14 @@ a useful time library, is splited from @hyperlink["https://gitlab.com/yanyingwan
 @hyperlink["https://gitlab.com/yanyingwang/timeless" "source code"]
 
 
+@; ------------------------------------------------------------------------------------------------
 
 
 @[table-of-contents]
 
 
 
-
-@section{Procedure Reference}
+@section{Procedures Reference(extended srfi/19)}
 
 @defthing[unix-epoch-time time?]{
 returns the unix epoch time, which is @italic{1970-01-01T00:00:00Z}.
@@ -121,9 +130,6 @@ Is @italic{time1} in the range of @italic{time2} and @italic{time3}(is in if @it
 @defproc[(previous-date/day [d date?]) date?]{
 returns a new date which is the same date of yesterday of @italic{d}.
 }
-@defproc[(yesterday-date [d date?]) date?]{
-@racket[end-date] is an alias procedure of @racket[previous-date/day].
-}
 
 
 @defproc[(parse-date [str string?]) date?]{
@@ -132,9 +138,6 @@ try to returns a date with parsing the string @italic{str}.
 
 @defproc[(previous-date/month [d date?]) date?]{
 returns a new date which is the same date of last month of @italic{d}.
-}
-@defproc[(yesterday-date [d date?]) date?]{
-@racket[end-date] is an alias procedure of @racket[last-month-date].
 }
 
 
@@ -176,7 +179,7 @@ an alias procedure of @racket[time-utc->date->string].
 }
 
 
-@section{Example}
+@section{Example of Procedures extended srfi/19}
 
 @codeblock[#:keep-lang-line? #f]|{
 
@@ -223,3 +226,42 @@ an alias procedure of @racket[time-utc->date->string].
 (date->string (parse-date "2018/01/01 12"))
 ;=> "Mon Jan 01 12:00:00+0800 2018"
 }|
+
+@section{procedures of extended gregor lib}
+if you are using @url["https://docs.racket-lang.org/gregor/"], below procedure may be helpful:
+
+@defproc[(->utc-offset/hours [m moment?]) number?]{
+return a number stands for the utc offset hours. While @racket[->utc-offset] returns the seconds.
+}
+
+@defproc[(->current-date) date?]{
+an alias procedure of @racket[today].
+}
+
+@defproc[(->current-datetime) datetime?]{
+an alias procedure of @racket[now].
+}
+
+@defproc[(->current-moment) moment?]{
+an alias procedure of @racket[now/moment].
+}
+
+
+@defproc[(->current-datetime-tz) moment?]{
+an alias procedure of @racket[now/moment].
+}
+
+
+@section{Procedure Reference of converting date/time types from different libs}
+
+@racketblock[
+(require gregor timeless/convert)
+
+(->sql-timestamp (now))
+]
+
+@examples[
+#:eval (timable-eval)
+(require gregor timeless/convert)
+(->sql-timestamp (now))
+]
