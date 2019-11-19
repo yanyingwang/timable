@@ -21,7 +21,7 @@
          previous-date/day
          previous-date/month
 
-         parse-date
+         date-parse
 
          hours-ago/time hours-ago/date hours-ago
          days-ago/time hours-ago/date days-ago
@@ -211,7 +211,7 @@
                (date-zone-offset d))))
 
 
-(define (parse-date str)
+(define (date-parse str)
   (let* ([t-list (string-split (regexp-replace* #rx"(\\s|/|-|_|:|T)" str " ") " ")]
          [tz-str (findf (lambda (e)
                           (or (string-prefix? (string-trim e) "+")
@@ -381,13 +381,13 @@
   (check-false (time-in-range<>=? (make-time time-utc 0 5)
                                   (make-time time-utc 0 1) (make-time time-utc 0 3)))
 
-  ;; parse-date
-  (check-equal? (date-year (parse-date "2018-02-14 12:30:45")) 2018)
-  (check-equal? (date-month (parse-date "2018-02-14 12:30:45")) 2)
-  (check-equal? (date-day (parse-date "2018-02-14 12:30:45")) 14)
-  (check-equal? (date-hour (parse-date "2018-02-14 12:30:45")) 12)
-  (check-equal? (date-minute (parse-date "2018-02-14 12:30:45")) 30)
-  (check-equal? (date-second (parse-date "2018-02-14 12:30:45")) 45)
+  ;; date-parse
+  (check-equal? (date-year (date-parse "2018-02-14 12:30:45")) 2018)
+  (check-equal? (date-month (date-parse "2018-02-14 12:30:45")) 2)
+  (check-equal? (date-day (date-parse "2018-02-14 12:30:45")) 14)
+  (check-equal? (date-hour (date-parse "2018-02-14 12:30:45")) 12)
+  (check-equal? (date-minute (date-parse "2018-02-14 12:30:45")) 30)
+  (check-equal? (date-second (date-parse "2018-02-14 12:30:45")) 45)
 
   ;; beginning-date
   (check-equal? (beginning-date (make-date 1 1 1 1 10 05 2019 0))
@@ -419,22 +419,22 @@
                 (make-date 9999999 59 59 23 30 04 2016 0))
 
   ;; previous-date
-  (check-equal? (date->string (previous-date/day (parse-date "2016-03-01")) "~1")
+  (check-equal? (date->string (previous-date/day (date-parse "2016-03-01")) "~1")
                 "2016-02-29")
-  (check-equal? (date->string (previous-date/day (parse-date "2017-03-01")) "~1")
+  (check-equal? (date->string (previous-date/day (date-parse "2017-03-01")) "~1")
                 "2017-02-28")
-  (check-equal? (date->string (previous-date/day (parse-date "2017-04-01")) "~1")
+  (check-equal? (date->string (previous-date/day (date-parse "2017-04-01")) "~1")
                 "2017-03-31")
-  (check-equal? (date->string (previous-date/day (parse-date "2017-05-01")) "~1")
+  (check-equal? (date->string (previous-date/day (date-parse "2017-05-01")) "~1")
                 "2017-04-30")
 
-  (check-equal? (date->string (previous-date/month (parse-date "2017-02-14 12:30:50")) "~1 ~3")
+  (check-equal? (date->string (previous-date/month (date-parse "2017-02-14 12:30:50")) "~1 ~3")
                 "2017-01-14 12:30:50")
-  (check-equal? (date->string (previous-date/month (parse-date "2016-03-31")) "~1")
+  (check-equal? (date->string (previous-date/month (date-parse "2016-03-31")) "~1")
                 "2016-02-29")
-  (check-equal? (date->string (previous-date/month (parse-date "2017-03-31")) "~1")
+  (check-equal? (date->string (previous-date/month (date-parse "2017-03-31")) "~1")
                 "2017-02-28")
-  (check-equal? (date->string (previous-date/month (parse-date "2017-07-31")) "~1")
+  (check-equal? (date->string (previous-date/month (date-parse "2017-07-31")) "~1")
                 "2017-06-30")
 
   )

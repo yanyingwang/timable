@@ -45,8 +45,8 @@ extend racket's various time/date libs and make them be able to work together mo
 (beginning-date (current-date))
 (beginning-date/month (current-date))
 (beginning-date/year (current-date))
-(date->string (parse-date "2018-01-01 11:11:11 +0800"))
-(date->string (parse-date "2018/01/01 12"))
+(date->string (date-parse "2018-01-01 11:11:11 +0800"))
+(date->string (date-parse "2018/01/01 12"))
 ]
 
 
@@ -150,7 +150,7 @@ returns a new date which is the same date of yesterday of @italic{d}.
 }
 
 
-@defproc[(parse-date [str string?]) date?]{
+@defproc[(date-parse [str string?]) date?]{
 try to returns a date with parsing the string @italic{str}.
 }
 
