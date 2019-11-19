@@ -6,13 +6,6 @@ compiled/
 doc/
 scribblings/compiled/
 
-
-timeless.html
-manual-fonts.css
-manual-racket.css
-manual-racket.js
-manual-style.css
-racket.css
-scribble-common.js
-scribble.css
-
+*.html
+*.css
+*.js

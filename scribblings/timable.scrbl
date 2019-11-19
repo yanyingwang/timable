@@ -1,34 +1,54 @@
 #lang scribble/manual
 
-@(require (for-label racket/base
-                     timeless)
-           scribble/eval)
+@(require scribble/eval
+          (for-label racket/base
+                     timable/srfi
+                     timable/gregor
+                     timable/convert))
 
-@(define timable-eval
-   (make-eval-factory '(timeless
-                        racket/function
-                        racket/list
-                        )))
+@(define time-eval
+   (make-eval-factory '(timable/srfi
+                        timable/convert
+                        timable/gregor)))
 
+@title{timable}
+@author[(author+email "Yanying Wang" "yanyingwang1@gmail.com")]
+@defmodule[timable]
 
-@title{timeless}
-@author[(author+email "yanyingwang" "yanyingwang1@gmail.com")]
-@defmodule[timeless]
+extend racket's various time/date libs and make them be able to work together more smoothly.
 
+@itemlist[
+@item{source code: @url["https://gitlab.com/yanyingwang/timable"]}
+@item{@bold{notes: This lib is very experimental and not stable, I may change the procedure names along with the time of learning racket lang.}}
+]
 
-a useful time library, is splited from @hyperlink["https://gitlab.com/yanyingwang/chive" "chive"] and built on the top of srfi 19/time.
-
-@hyperlink["https://gitlab.com/yanyingwang/timeless" "source code"]
-
-
-@; ------------------------------------------------------------------------------------------------
 
 
 @[table-of-contents]
+@; --------------------------------------------------------------------------------------------------
 
 
+@section{Procedures extended from srfi/19}
+@defmodule[timable/srfi]
 
-@section{Procedures Reference(extended srfi/19)}
+@examples[
+#:eval (time-eval)
+(require srfi/19)
+
+(hours-ago 5)
+(time-in-range? (current-time) (hours-ago/time 1) (hours-from-now/time 1))
+(last-oclock (current-date))
+(last-oclock/time (current-time))
+(oclocks-between (hours-ago 2) (hours-ago 5))
+(oclocks-between/time (hours-ago/time 2) (hours-ago/time 5))
+
+(beginning-date (current-date))
+(beginning-date/month (current-date))
+(beginning-date/year (current-date))
+(date->string (parse-date "2018-01-01 11:11:11 +0800"))
+(date->string (parse-date "2018/01/01 12"))
+]
+
 
 @defthing[unix-epoch-time time?]{
 returns the unix epoch time, which is @italic{1970-01-01T00:00:00Z}.
@@ -62,8 +82,6 @@ returns a time of @italic{n} hours from now on.
 @defproc[(hours-from-now/date [n number?]) date?]{
 returns a date of @italic{n} hours from now on.
 }
-
-@bold{same kind of rule comes to procedures @code{days-ago} and @code{days-from-now}, and the plural procedure name can be singular such as @code{hour-ago}. }
 
 @defproc[(time-in-range? [time1 time?]
                          [time2 time?]
@@ -179,56 +197,9 @@ an alias procedure of @racket[time-utc->date->string].
 }
 
 
-@section{Example of Procedures extended srfi/19}
 
-@codeblock[#:keep-lang-line? #f]|{
-
-(require timeless)
-
-(hours-ago 5)
-;=> (date* 55 50 11 8 5 2019 3 127 #f 28800 996000000 "")
-
-(time-in-range? (days-ago 2) (hours-ago 1) unix-epoch-time)
-;=> #t
-
-(last-olock (current-date))
-;=> #[#{date pfwa3r0havo3glvxa5oa6eoyh-24} 0 0 0 15 5 11 2018 28800]
-
-(last-olock/time (current-time))
-;=> #[#{date pfwa3r0havo3glvxa5oa6eoyh-24} 0 0 0 15 5 11 2018 28800]
-
-> (oclocks-between (hours-ago 2) (hours-ago 5))
-(#[#{date pfwa3r0havo3glvxa5oa6eoyh-24} 0 0 0 10 5 11 2018 28800]
- #[#{date pfwa3r0havo3glvxa5oa6eoyh-24} 0 0 0 11 5 11 2018 28800]
- #[#{date pfwa3r0havo3glvxa5oa6eoyh-24} 0 0 0 12 5 11 2018 28800]
- #[#{date pfwa3r0havo3glvxa5oa6eoyh-24} 0 0 0 13 5 11 2018 28800])
-
-> (oclocks-between/time (hours-ago/time 2) (hours-ago/time 5))
-(#[#{time pfwa3r0havo3glvxa5oa6eoyh-25} time-utc 0 1541383200]
- #[#{time pfwa3r0havo3glvxa5oa6eoyh-25} time-utc 0 1541386800]
- #[#{time pfwa3r0havo3glvxa5oa6eoyh-25} time-utc 0 1541390400]
- #[#{time pfwa3r0havo3glvxa5oa6eoyh-25} time-utc 0 1541394000])
-
-
-(require srfi/19)
-(beginning-date (current-date))
-;=> (date* 0 0 0 5 5 2019 0 124 #f 28800 0 "")
-
-(beginning-date/month (current-date))
-;=> (date* 0 0 0 1 5 2019 3 120 #f 28800 0 "")
-
-(beginning-date/year (current-date))
-;=> (date* 0 0 0 1 1 2019 2 0 #f 28800 0 "")
-
-(date->string (parse-date "2018-01-01 11:11:11 +0800"))
-;=> "Mon Jan 01 11:11:11+0800 2018"
-
-(date->string (parse-date "2018/01/01 12"))
-;=> "Mon Jan 01 12:00:00+0800 2018"
-}|
-
-@section{procedures of extended gregor lib}
-if you are using @url["https://docs.racket-lang.org/gregor/"], below procedure may be helpful:
+@section{Procedures extended from gregor}
+@defmodule[timable/gregor]
 
 @defproc[(->utc-offset/hours [m moment?]) number?]{
 return a number stands for the utc offset hours. While @racket[->utc-offset] returns the seconds.
@@ -252,16 +223,38 @@ an alias procedure of @racket[now/moment].
 }
 
 
-@section{Procedure Reference of converting date/time types from different libs}
+@section{Procedures converting date/time types}
+@defmodule[timable/convert]
+@examples[
+#:eval (time-eval)
+(require gregor)
 
-@racketblock[
-(require gregor timeless/convert)
-
+(->sql-timestamp (today))
 (->sql-timestamp (now))
+(->sql-timestamp (now/moment))
 ]
 
-@examples[
-#:eval (timable-eval)
-(require gregor timeless/convert)
-(->sql-timestamp (now))
+@defproc[(date->sql-timestamp [d date?]) sql-timestamp?]{
+convert @italic{d} from gregor date to sql-timestamp.
+}
+
+@defproc[(datetime->sql-timestamp [d datetime?]) sql-timestamp?]{
+convert @italic{d} from gregor datetime to sql-timestamp.
+}
+
+@defproc[(moment->sql-timestamp [d moment?]) sql-timestamp?]{
+convert @italic{d} from gregor moment to sql-timestamp.
+}
+
+@defproc[(->sql-timestamp [d (or/c date? datetime? moment?)]) sql-timestamp?]{
+convert @italic{d} from gregor moment to sql-timestamp.
+}
+
+
+@section{udpated logs}
+
+@itemlist[
+@item{rename timeless to timable and add support to gregor and sql-timestamp.}
+@item{splited from chive and name it to timeless only support srfi/19 lib.}
+@item{refactor chive from chez scheme version to racket.}
 ]
