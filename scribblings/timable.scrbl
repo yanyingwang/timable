@@ -200,26 +200,37 @@ an alias procedure of @racket[time-utc->date->string].
 
 @section{Procedures extended from gregor}
 @defmodule[timable/gregor]
+@examples[
+#:eval (time-eval)
+(current-date)
+(current-datetime)
+(current-moment)
+(current-datetime/utc)
+(current-moment/utc)
+]
 
 @defproc[(->utc-offset/hours [m moment?]) number?]{
 return a number stands for the utc offset hours. While @racket[->utc-offset] returns the seconds.
 }
 
-@defproc[(->current-date) date?]{
+@defproc[(current-date) date?]{
 an alias procedure of @racket[today].
 }
 
-@defproc[(->current-datetime) datetime?]{
+@defproc[(current-datetime) datetime?]{
 an alias procedure of @racket[now].
 }
 
-@defproc[(->current-moment) moment?]{
+@defproc[(current-moment) moment?]{
 an alias procedure of @racket[now/moment].
 }
 
+@defproc[(current-datetime/utc) moment?]{
+an alias procedure of @racket[now/utc].
+}
 
-@defproc[(->current-datetime-tz) moment?]{
-an alias procedure of @racket[now/moment].
+@defproc[(current-moment/utc) moment?]{
+an alias procedure of @racket[now/moment/utc].
 }
 
 
