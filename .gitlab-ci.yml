@@ -8,4 +8,5 @@ before_script:
 
 run-test:
   script:
-    - raco test ./main.rkt
+    - raco test ./srfi.rkt
+    - raco test ./gregor.rkt

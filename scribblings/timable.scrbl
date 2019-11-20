@@ -2,8 +2,8 @@
 
 @(require scribble/eval
           (for-label racket/base
-                     timable/srfi
-                     timable/gregor
+                     @; timable/srfi
+                     @; timable/gregor
                      timable/convert))
 
 @(define time-eval
@@ -34,6 +34,7 @@ extend racket's various time/date libs and make them be able to work together mo
 @examples[
 #:eval (time-eval)
 (require srfi/19)
+(require timable/srfi)
 
 (hours-ago 5)
 (time-in-range? (current-time) (hours-ago/time 1) (hours-from-now/time 1))
@@ -202,11 +203,18 @@ an alias procedure of @racket[time-utc->date->string].
 @defmodule[timable/gregor]
 @examples[
 #:eval (time-eval)
+(require timable/gregor)
 (current-date)
 (current-datetime)
 (current-moment)
 (current-datetime/utc)
 (current-moment/utc)
+
+(require gregor)
+(prev-day (now))
+(prev-month (now))
+(at-beginning/month (now))
+(at-end/month (now))
 ]
 
 @defproc[(->utc-offset/hours [m moment?]) number?]{
