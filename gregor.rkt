@@ -13,6 +13,7 @@
          years-from-now days-from-now hours-from-now
          years-from-now/utc days-from-now/utc hours-from-now/utc
          prev-day prev-month
+         next-month
          at-beginning/month at-end/month
          (contract-out [->utc-offset/hours (-> moment? number?)]))
 
@@ -79,6 +80,18 @@
          [nmonth (if (= month 1)
                      12
                      (- month 1))]
+         [days-nmonth (days-in-month year nmonth)]
+         [nday (if (> day days-nmonth)
+                   days-nmonth
+                   day)])
+    (datetime year nmonth nday (->hours d) (->minutes d) (->seconds d) (->nanoseconds d))))
+(define (next-month d)
+  (let* ([year (->year d)]
+         [month (->month d)]
+         [day (->day d)]
+         [nmonth (if (= month 12)
+                     1
+                     (+ month 1))]
          [days-nmonth (days-in-month year nmonth)]
          [nday (if (> day days-nmonth)
                    days-nmonth
