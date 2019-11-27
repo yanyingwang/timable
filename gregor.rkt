@@ -68,7 +68,9 @@
   (let* ([year (->year d)]
          [month (->month d)]
          [day (->day d)]
-         [pmonth (- month 1)]
+         [pmonth (if (= month 1)
+                     12
+                     (- month 1))]
          [nmonth (if (= day 1) pmonth month)]
          [nday (if (= day 1) (days-in-month year pmonth) (- day 1))])
     (datetime year nmonth nday (->hours d) (->minutes d) (->seconds d) (->nanoseconds d))))
