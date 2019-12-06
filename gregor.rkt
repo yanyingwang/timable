@@ -64,6 +64,10 @@
 (define (hours-from-now/utc i)
   (+hours (now/utc) i))
 
+
+;; (+days (now) 1)
+;; (+months (now) 1)
+;; (+years (now) 1)
 (define (prev-day d)
   (let* ([year (->year d)]
          [month (->month d)]
@@ -101,7 +105,7 @@
     (datetime year nmonth nday (->hours d) (->minutes d) (->seconds d) (->nanoseconds d))))
 
 (define (at-beginning/month d)
-  (datetime (->year d) (->month d) 1 (->hours d) (->minutes d) (->seconds d) (->nanoseconds d)))
+  (datetime (->year d) (->month d) 1 0 0 0 0))
 (define (at-end/month d)
   (datetime (->year d) (->month d) (days-in-month (->year d) (->month d)) 23 59 59 999999999))
 
