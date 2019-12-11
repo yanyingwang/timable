@@ -136,11 +136,11 @@
   (check-equal? (~t (prev-day (datetime 2016 3 1)) "y-M-d")
                 "2016-2-29")
   (check-equal? (~t (prev-day (datetime 2017 3 1)) "y-M-d")
-                "2016-2-28")
+                "2017-2-28")
   (check-equal? (~t (prev-day (datetime 2017 4 1)) "y-M-d")
-                "2016-3-31")
+                "2017-3-31")
   (check-equal? (~t (prev-day (datetime 2017 5 1)) "y-M-d")
-                "2016-4-30")
+                "2017-4-30")
   ;; prev-month
   (check-equal? (~t (prev-month (datetime 2017 2 14)) "y-M-d")
                 "2017-1-14")
@@ -154,8 +154,8 @@
   ;; at-beginning/month
   ;; (check-equal? (beginning-date (make-date 1 1 1 1 10 05 2019 0))
   ;;               (make-date 0 0 0 0 10 05 2019 0))
-  (check-equal? (at-beginning/month (make-date 2019 2 14))
-                (datetime 2019 2 14 8 40 50 1))
+  (check-equal? (at-beginning/month (datetime 2019 2 14 12 40 50 1))
+                (datetime 2019 2 1 0 0 0 0))
   ;; (check-equal? (beginning-date/year (make-date 1 1 1 1 10 05 2019 0))
   ;;               (make-date 0 0 0 0 1 1 2019 0))
 
@@ -173,7 +173,7 @@
   (check-equal? (at-end/month (datetime 2016 2 14 12 40 50 1))
                 (datetime 2016 2 29 23 59 59 999999999))
   (check-equal? (at-end/month (datetime 2019 2 14 12 40 50 1))
-                (datetime 2019 2 23 23 59 59 999999999))
+                (datetime 2019 2 28 23 59 59 999999999))
 
   #;(check-equal? (end-date/month (make-date 123456 50 40 12 14 03 2016 0))
                   (make-date 9999999 59 59 23 31 03 2016 0))

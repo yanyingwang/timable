@@ -270,7 +270,7 @@ convert @italic{d} from gregor moment to sql-timestamp.
 }
 
 
-@section{udpated logs}
+@section{Changelog}
 
 @itemlist[
 @item{rename timeless to timable and add support to gregor and sql-timestamp.}
