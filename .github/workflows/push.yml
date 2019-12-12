@@ -1,7 +1,7 @@
 on: [push, pull_request]
-name: CI
+name: main-workflow
 jobs:
-  build:
+  Run:
     runs-on: ubuntu-latest
     strategy:
       matrix:
