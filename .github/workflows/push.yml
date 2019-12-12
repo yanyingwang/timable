@@ -1,0 +1,21 @@
+on: [push, pull_request]
+name: CI
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        racket-version: [ "7.3", "7.4", "7.5" ]
+        racket-variant: [ "regular", "CS" ]
+    name: "CI using Racket ${{ matrix.racket-version }} (${{ matrix.racket-variant }})"
+    steps:
+      - uses: actions/checkout@master
+      - uses: Bogdanp/setup-racket@v0.5
+        with:
+          architecture: x64
+          distribution: full # or minimal
+          variant: ${{ matrix.racket-variant }}
+          version: ${{ matrix.racket-version }}
+      - run: raco pkg install --auto
+      - run: raco test ./srfi.rkt
+      - run: raco test ./gregor.rkt
