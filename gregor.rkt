@@ -12,9 +12,12 @@
          years-ago/utc days-ago/utc hours-ago/utc
          years-from-now days-from-now hours-from-now
          years-from-now/utc days-from-now/utc hours-from-now/utc
-         prev-day prev-month
-         next-month
+         prev-day next-day
+         prev-month next-month
+         prev-year next-year
+         at-beginning/day at-end/day
          at-beginning/month at-end/month
+         at-beginning/year at-end/year
          (contract-out [->utc-offset/hours (-> moment? number?)]))
 
 
@@ -64,50 +67,39 @@
 (define (hours-from-now/utc i)
   (+hours (now/utc) i))
 
-
-;; (+days (now) 1)
-;; (+months (now) 1)
-;; (+years (now) 1)
 (define (prev-day d)
-  (let* ([year (->year d)]
-         [month (->month d)]
-         [day (->day d)]
-         [pmonth (if (= month 1)
-                     12
-                     (- month 1))]
-         [nmonth (if (= day 1) pmonth month)]
-         [nday (if (= day 1) (days-in-month year pmonth) (- day 1))])
-    (datetime year nmonth nday (->hours d) (->minutes d) (->seconds d) (->nanoseconds d))))
+  (-days d 1))
+(define (next-day d)
+  (+days d 1))
 
 (define (prev-month d)
-  (let* ([year (->year d)]
-         [month (->month d)]
-         [day (->day d)]
-         [nmonth (if (= month 1)
-                     12
-                     (- month 1))]
-         [days-nmonth (days-in-month year nmonth)]
-         [nday (if (> day days-nmonth)
-                   days-nmonth
-                   day)])
-    (datetime year nmonth nday (->hours d) (->minutes d) (->seconds d) (->nanoseconds d))))
+  (-months d 1))
 (define (next-month d)
-  (let* ([year (->year d)]
-         [month (->month d)]
-         [day (->day d)]
-         [nmonth (if (= month 12)
-                     1
-                     (+ month 1))]
-         [days-nmonth (days-in-month year nmonth)]
-         [nday (if (> day days-nmonth)
-                   days-nmonth
-                   day)])
-    (datetime year nmonth nday (->hours d) (->minutes d) (->seconds d) (->nanoseconds d))))
+  (+months d) 1)
+
+(define (prev-year d)
+  (-years d 1))
+(define (next-year d)
+  (+years d) 1)
+
+
+(define (at-beginning/day d)
+  (datetime (->year d) (->month d) (->day d) 0 0 0 0))
+(define (at-end/day d)
+  (datetime (->year d) (->month d) (->day d) 23 59 59 999999999))
 
 (define (at-beginning/month d)
   (datetime (->year d) (->month d) 1 0 0 0 0))
 (define (at-end/month d)
   (datetime (->year d) (->month d) (days-in-month (->year d) (->month d)) 23 59 59 999999999))
+
+(define (at-beginning/year d)
+  (datetime (->year d) 1 1 0 0 0 0))
+(define (at-end/year d)
+  (datetime (->year d) 12 (days-in-month (->year d) 12) 23 59 59 999999999))
+
+
+
 
 (module+ test
   (require rackunit)

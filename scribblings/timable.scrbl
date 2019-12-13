@@ -1,10 +1,9 @@
 #lang scribble/manual
 
-@(require scribble/eval
-          (for-label racket/base
-                     @; timable/srfi
-                     @; timable/gregor
-                     timable/convert))
+@(require (for-label racket/base
+                     timable/gregor
+                     timable/convert)
+           scribble/eval)
 
 @(define time-eval
    (make-eval-factory '(timable/srfi
@@ -21,7 +20,6 @@ extend racket's various time/date libs and make them be able to work together mo
 @item{source code: @url["https://gitlab.com/yanyingwang/timable"]}
 @item{@bold{notes: This lib is very experimental and not stable, I may change the procedure names along with the time of learning racket lang.}}
 ]
-
 
 
 @[table-of-contents]
@@ -207,7 +205,6 @@ an alias procedure of @racket[time-utc->date->string].
 (current-date)
 (current-datetime)
 (current-moment)
-(current-datetime/utc)
 (current-moment/utc)
 
 (require gregor)
@@ -233,13 +230,37 @@ an alias procedure of @racket[now].
 an alias procedure of @racket[now/moment].
 }
 
-@defproc[(current-datetime/utc) moment?]{
-an alias procedure of @racket[now/utc].
-}
-
 @defproc[(current-moment/utc) moment?]{
 an alias procedure of @racket[now/moment/utc].
 }
+
+@defproc[(at-beginning/day d) (or datetime? moment?)]{
+ the day beginning time of d.
+}
+@defproc[(at-end/day d) (or datetime? moment?)]{
+ the day end time of d.
+}
+
+@defproc[(current-datetime/sql d)  datetime?]{
+return @racket[current-datetime] in sql-timestamp type.
+}
+@defproc[(now/sql d)  datetime?]{
+alias procedure of @rakcet[current-datetime/sql]
+}
+
+@defproc[(current-moment/sql d)  moment?]{
+return @racket[current-moment] in sql-timestamp-tz type.
+}
+@defproc[(now/moment/sql d)  datetime?]{
+alias procedure of @rakcet[current-moment/sql]
+}
+
+@defproc[(today/sql d) date?]{
+return @racket[today] in sql-date type.
+}
+
+
+
 
 
 @section{Procedures converting date/time types}
@@ -273,6 +294,7 @@ convert @italic{d} from gregor moment to sql-timestamp.
 @section{Changelog}
 
 @itemlist[
+@time[add now/sql now/moment/sql today/sql ... to convert lib]
 @item{rename timeless to timable and add support to gregor and sql-timestamp.}
 @item{splited from chive and name it to timeless only support srfi/19 lib.}
 @item{refactor chive from chez scheme version to racket.}

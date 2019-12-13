@@ -3,6 +3,8 @@
 (require racket/contract
          gregor
          (only-in db
+                  sql-date
+                  sql-date?
                   sql-timestamp
                   sql-timestamp?)
          (file "./gregor.rkt")
@@ -10,12 +12,23 @@
          db/util/datetime)
 
 
-(provide (contract-out [date->sql-timestamp (-> date? sql-timestamp?)]
+(provide (contract-out [date->sql-date (-> date? sql-date?)]
+                       [date->sql-timestamp (-> date? sql-timestamp?)]
                        [datetime->sql-timestamp (-> datetime? sql-timestamp?)]
                        [moment->sql-timestamp (-> moment? sql-timestamp?)]
-                       [->sql-timestamp (-> (or/c srfi-date? date? moment? datetime?) sql-timestamp?)])
+                       [->sql-timestamp (-> (or/c srfi-date? date? moment? datetime?) sql-timestamp?)]
+                       [current-datetime/sql (-> sql-timestamp?)]
+                       [current-moment/sql (-> sql-timestamp?)]
+                       [current-date/sql (-> sql-date?)])
+         now/sql
+         now/moment/sql
+         today/sql
          datetime-tz->sql-timestamp)
 
+(define (date->sql-date gregor-d)
+  (sql-date (->year gregor-d)
+            (->month gregor-d)
+            (->day gregor-d)))
 
 (define (date->sql-timestamp gregor-d)
   (sql-timestamp (->year gregor-d)
@@ -54,3 +67,20 @@
     [(date? d) (date->sql-timestamp d)]
     [(datetime? d) (datetime->sql-timestamp d)]
     [(moment? d) (moment->sql-timestamp d)]))
+
+
+
+(define (current-datetime/sql)
+  (datetime->sql-timestamp (current-datetime)))
+(define (now/sql)
+  (current-datetime/sql))
+
+(define (current-moment/sql #:tz [tz (current-timezone)])
+  (moment->sql-timestamp (current-moment #:tz tz)))
+(define (now/moment/sql)
+  (current-moment/sql))
+
+(define (current-date/sql)
+  (date->sql-date (today)))
+(define (today/sql)
+  (current-date/sql))
