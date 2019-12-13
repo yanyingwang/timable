@@ -77,7 +77,7 @@
 
 (define (current-moment/sql #:tz [tz (current-timezone)])
   (moment->sql-timestamp (current-moment #:tz tz)))
-(define (now/moment/sql)
+(define (now/moment/sql #:tz [tz (current-timezone)])
   (current-moment/sql))
 
 (define (current-date/sql)

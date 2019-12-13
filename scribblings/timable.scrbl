@@ -23,9 +23,9 @@ extend racket's various time/date libs and make them be able to work together mo
 
 
 @[table-of-contents]
+
+
 @; --------------------------------------------------------------------------------------------------
-
-
 @section{Procedures extended from srfi/19}
 @defmodule[timable/srfi]
 
@@ -197,21 +197,33 @@ an alias procedure of @racket[time-utc->date->string].
 
 
 
+
+
+@; --------------------------------------------------------------------------------------------------
 @section{Procedures extended from gregor}
 @defmodule[timable/gregor]
 @examples[
 #:eval (time-eval)
 (require timable/gregor)
+
 (current-date)
 (current-datetime)
 (current-moment)
 (current-moment/utc)
 
+
 (require gregor)
+
 (prev-day (now))
 (prev-month (now))
+(next-month (now))
+(prev-year (now))
+
 (at-beginning/month (now))
 (at-end/month (now))
+(at-beginning/day (now))
+(at-end/year (now))
+
 ]
 
 @defproc[(->utc-offset/hours [m moment?]) number?]{
@@ -234,35 +246,17 @@ an alias procedure of @racket[now/moment].
 an alias procedure of @racket[now/moment/utc].
 }
 
-@defproc[(at-beginning/day d) (or datetime? moment?)]{
+@defproc[(at-beginning/day [d (or/c datetime? moment?)]) (or/c datetime? moment?)]{
  the day beginning time of d.
 }
-@defproc[(at-end/day d) (or datetime? moment?)]{
+@defproc[(at-end/day [d (or/c datetime? moment?)]) (or/c datetime? moment?)]{
  the day end time of d.
 }
 
-@defproc[(current-datetime/sql d)  datetime?]{
-return @racket[current-datetime] in sql-timestamp type.
-}
-@defproc[(now/sql d)  datetime?]{
-alias procedure of @rakcet[current-datetime/sql]
-}
-
-@defproc[(current-moment/sql d)  moment?]{
-return @racket[current-moment] in sql-timestamp-tz type.
-}
-@defproc[(now/moment/sql d)  datetime?]{
-alias procedure of @rakcet[current-moment/sql]
-}
-
-@defproc[(today/sql d) date?]{
-return @racket[today] in sql-date type.
-}
 
 
 
-
-
+@; --------------------------------------------------------------------------------------------------
 @section{Procedures converting date/time types}
 @defmodule[timable/convert]
 @examples[
@@ -272,6 +266,12 @@ return @racket[today] in sql-date type.
 (->sql-timestamp (today))
 (->sql-timestamp (now))
 (->sql-timestamp (now/moment))
+(->sql-timestamp (now))
+(->sql-timestamp (now/moment #:tz "Asia/Shanghai"))
+
+(today/sql)
+(now/sql)
+(now/moment/sql #:tz "Asia/Shanghai")
 ]
 
 @defproc[(date->sql-timestamp [d date?]) sql-timestamp?]{
@@ -291,10 +291,27 @@ convert @italic{d} from gregor moment to sql-timestamp.
 }
 
 
+@defproc[(current-datetime/sql [d datetime?])  sql-timestamp?]{
+return @racket[current-datetime] in sql-timestamp type.
+}
+
+
+@defproc[(current-moment/sql [d moment?]) sql-timestamp?]{
+return @racket[current-moment] in sql-timestamp-tz type.
+}
+
+@defproc[(today/sql [d date?]) sql-date?]{
+return @racket[today] in sql-date type.
+}
+
+
+
+
+@;---------------------------------------------------
 @section{Changelog}
 
 @itemlist[
-@time[add now/sql now/moment/sql today/sql ... to convert lib]
+@item{add now/sql now/moment/sql today/sql ... to convert lib.}
 @item{rename timeless to timable and add support to gregor and sql-timestamp.}
 @item{splited from chive and name it to timeless only support srfi/19 lib.}
 @item{refactor chive from chez scheme version to racket.}
