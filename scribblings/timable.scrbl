@@ -12,9 +12,9 @@
 
 @title{timable}
 @author[(author+email "Yanying Wang" "yanyingwang1@gmail.com")]
-@defmodule[timable]
-
+@defmodule[timable]{
 extend racket's various time/date libs and make them be able to work together more smoothly.
+}
 
 @itemlist[
 @item{source code: @url["https://gitlab.com/yanyingwang/timable"]}
