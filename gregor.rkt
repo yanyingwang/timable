@@ -2,6 +2,15 @@
 
 
 (require gregor
+         (only-in racket/list
+                  first
+                  second
+                  third
+                  fourth
+                  fifth
+                  sixth
+                  seventh)
+         racket/string
          racket/contract)
 
 (provide current-date
@@ -18,7 +27,9 @@
          at-beginning/day at-end/day
          at-beginning/month at-end/month
          at-beginning/year at-end/year
-         (contract-out [->utc-offset/hours (-> moment? number?)]))
+         (contract-out [->utc-offset/hours (-> moment? number?)])
+         (contract-out [parse/datetime (-> string? datetime?)])
+         )
 
 
 (define (current-date) (today))
@@ -100,7 +111,41 @@
 
 
 
+(define (parse/datetime str)
+  (let* ([t-list (string-split (regexp-replace* #rx"(\\s|/|-|_|:|T)" str " ") " ")]
+         [tz-str (findf (lambda (e)
+                          (or (string-prefix? (string-trim e) "+")
+                              (string-prefix? (string-trim e) "-")))
+                        t-list)]
+         [t-len (if tz-str
+                    (- (length t-list) 1)
+                    (length t-list))])
+    (datetime (if (>= t-len 1)
+                  (string->number (first t-list)) ; year
+                  1970)
+              (if (>= t-len 2) ; month
+                  (string->number (second t-list))
+                  01)
+              (if (>= t-len 3) ; day
+                  (string->number (third t-list))
+                  01)
+              (if (>= t-len 4) ; hour
+                  (string->number (fourth t-list))
+                  00)
+              (if (>= t-len 5) ; minute
+                  (string->number (fifth t-list))
+                  00)
+              (if (>= t-len 6) ; second
+                  (string->number (sixth t-list))
+                  00)
+              (if (>= t-len 7) ; nanosecond
+                  (string->number (seventh t-list))
+                  00000000))))
 
+
+
+
+;; ------------------------------------------------------------
 (module+ test
   (require rackunit)
   ;; Any code in this `test` submodule runs when this file is run using DrRacket
@@ -171,5 +216,9 @@
                   (make-date 9999999 59 59 23 31 03 2016 0))
   #;(check-equal? (end-date/month (make-date 123456 50 40 12 14 04 2016 0))
                   (make-date 9999999 59 59 23 30 04 2016 0))
+
+  ;; parse/datetime
+  (check-equal? (parse/datetime "2018-02-14 12:30:45") (datetime 2018 2 14 12 30 45))
+  (check-equal? (parse/datetime "2018/02-14 12-30 45") (datetime 2018 2 14 12 30 45))
 
   )

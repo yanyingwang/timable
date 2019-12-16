@@ -224,6 +224,8 @@ an alias procedure of @racket[time-utc->date->string].
 (at-beginning/day (now))
 (at-end/year (now))
 
+(parse/datetime "2018-02-14 12:30:45")
+(parse/datetime "2018/02-14 12-30 45")
 ]
 
 @defproc[(->utc-offset/hours [m moment?]) number?]{
@@ -311,6 +313,7 @@ return @racket[today] in sql-date type.
 @section{Changelog}
 
 @itemlist[
+@item{add parse/datetime ... to gregor lib. --2019/12/16}
 @item{add now/sql now/moment/sql today/sql ... to convert lib.}
 @item{rename timeless to timable and add support to gregor and sql-timestamp.}
 @item{splited from chive and name it to timeless only support srfi/19 lib.}
