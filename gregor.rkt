@@ -11,7 +11,8 @@
                   sixth
                   seventh)
          racket/string
-         racket/contract)
+         racket/contract
+         racket/format)
 
 (provide current-date
          current-datetime
@@ -121,7 +122,10 @@
                     (- (length t-list) 1)
                     (length t-list))])
     (datetime (if (>= t-len 1)
-                  (string->number (first t-list)) ; year
+                  (string->number (let ([year (first t-list)])
+                                    (if (string-prefix? str "-")
+                                        (~a '- year)
+                                        year))) ; year
                   1970)
               (if (>= t-len 2) ; month
                   (string->number (second t-list))
@@ -220,5 +224,6 @@
   ;; parse/datetime
   (check-equal? (parse/datetime "2018-02-14 12:30:45") (datetime 2018 2 14 12 30 45))
   (check-equal? (parse/datetime "2018/02-14 12-30 45") (datetime 2018 2 14 12 30 45))
+  (check-equal? (parse/datetime "-600/02-14 12-30 45") (datetime -600 2 14 12 30 45))
 
   )
