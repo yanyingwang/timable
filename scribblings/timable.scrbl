@@ -1,6 +1,7 @@
 #lang scribble/manual
 
-@(require (for-label racket/base
+@(require (for-label gregor
+                     @; racket/base
                      timable/gregor
                      timable/convert)
            scribble/eval)
@@ -253,6 +254,10 @@ an alias procedure of @racket[now/moment/utc].
 }
 @defproc[(at-end/day [d (or/c datetime? moment?)]) (or/c datetime? moment?)]{
  the day end time of d.
+}
+
+@defproc[(parse/datetime [str string?]) datetime?]{
+try to parse @racket[str] and return a @racket[datetime] for it.
 }
 
 
