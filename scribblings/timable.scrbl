@@ -18,7 +18,7 @@ extend racket's various time/date libs and make them be able to work together mo
 }
 
 @itemlist[
-@item{source code: @url["https://gitlab.com/yanyingwang/timable"]}
+@item{source code: @url["https://github.com/yanyingwang/timable"]}
 @item{@bold{notes: This lib is very experimental and not stable, I may change the procedure names along with the time of learning racket lang.}}
 ]
 
