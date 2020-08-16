@@ -19,3 +19,15 @@ jobs:
       - run: raco pkg install --auto
       - run: raco test ./srfi.rkt
       - run: raco test ./gregor.rkt
+      - name: build docs
+        run: |
+          raco scribble --dest docs --dest-name index ++main-xref-in --redirect-main https://docs.racket-lang.org/ scribblings/timable.scrbl
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v1.2.5
+        with:
+          target_branch: gh-pages
+          build_dir: docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
