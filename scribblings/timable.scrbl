@@ -20,7 +20,7 @@ extend racket's various time/date libs and make them be able to work together mo
 @itemlist[
 @item{source code: @url["https://github.com/yanyingwang/timable"]}
 @item{Please use gregor instead of srfi/19 if possible, this lib is tightly sticking with gregor more than srfi/19.}
-@item{@litchar{(require timable)} will do the same thing as @litchar{(require timable/gregor timable/convert)}}
+@item{@racket[(require timable)] will do the same thing as @racket[(require timable/gregor timable/convert)]}
 @item{@bold{notes: This lib is very experimental and not stable, I may change the procedure names along with the time of learning racket lang.}}
 ]
 
@@ -39,7 +39,6 @@ extend racket's various time/date libs and make them be able to work together mo
 (current-datetime)
 (current-moment)
 (current-moment/utc)
-
 
 (require gregor)
 
