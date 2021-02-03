@@ -27,8 +27,10 @@
 ;; Code here
 
 
-(require (file "./srfi.rkt"))
-(provide (all-from-out (file "./srfi.rkt")))
+(require (file "./gregor.rkt"
+               "./convert.rkt"))
+(provide (all-from-out (file "./gregor.rkt"
+                             "./convert.rkt")))
 
 
 (module+ main

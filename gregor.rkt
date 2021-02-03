@@ -25,9 +25,9 @@
          prev-day next-day
          prev-month next-month
          prev-year next-year
-         at-beginning/day at-end/day
-         at-beginning/month at-end/month
-         at-beginning/year at-end/year
+         at-beginning/on-day at-end/on-day
+         at-beginning/on-month at-end/on-month
+         at-beginning/on-year at-end/on-year
          (contract-out [->utc-offset/hours (-> moment? number?)])
          (contract-out [parse/datetime (-> string? datetime?)])
          )
@@ -87,27 +87,27 @@
 (define (prev-month d)
   (-months d 1))
 (define (next-month d)
-  (+months d) 1)
+  (+months d 1))
 
 (define (prev-year d)
   (-years d 1))
 (define (next-year d)
-  (+years d) 1)
+  (+years d 1))
 
 
-(define (at-beginning/day d)
+(define (at-beginning/on-day d)
   (datetime (->year d) (->month d) (->day d) 0 0 0 0))
-(define (at-end/day d)
+(define (at-end/on-day d)
   (datetime (->year d) (->month d) (->day d) 23 59 59 999999999))
 
-(define (at-beginning/month d)
+(define (at-beginning/on-month d)
   (datetime (->year d) (->month d) 1 0 0 0 0))
-(define (at-end/month d)
+(define (at-end/on-month d)
   (datetime (->year d) (->month d) (days-in-month (->year d) (->month d)) 23 59 59 999999999))
 
-(define (at-beginning/year d)
+(define (at-beginning/on-year d)
   (datetime (->year d) 1 1 0 0 0 0))
-(define (at-end/year d)
+(define (at-end/on-year d)
   (datetime (->year d) 12 (days-in-month (->year d) 12) 23 59 59 999999999))
 
 
@@ -193,7 +193,7 @@
   ;; at-beginning/month
   ;; (check-equal? (beginning-date (make-date 1 1 1 1 10 05 2019 0))
   ;;               (make-date 0 0 0 0 10 05 2019 0))
-  (check-equal? (at-beginning/month (datetime 2019 2 14 12 40 50 1))
+  (check-equal? (at-beginning/on-month (datetime 2019 2 14 12 40 50 1))
                 (datetime 2019 2 1 0 0 0 0))
   ;; (check-equal? (beginning-date/year (make-date 1 1 1 1 10 05 2019 0))
   ;;               (make-date 0 0 0 0 1 1 2019 0))
@@ -209,9 +209,9 @@
   #;(check-equal? (end-date/day (make-date 123456 50 40 12 14 02 2016 0))
                   (make-date 9999999 59 59 23 14 02 2016 0))
 
-  (check-equal? (at-end/month (datetime 2016 2 14 12 40 50 1))
+  (check-equal? (at-end/on-month (datetime 2016 2 14 12 40 50 1))
                 (datetime 2016 2 29 23 59 59 999999999))
-  (check-equal? (at-end/month (datetime 2019 2 14 12 40 50 1))
+  (check-equal? (at-end/on-month (datetime 2019 2 14 12 40 50 1))
                 (datetime 2019 2 28 23 59 59 999999999))
 
   #;(check-equal? (end-date/month (make-date 123456 50 40 12 14 03 2016 0))
