@@ -403,7 +403,8 @@ an alias procedure of @racket[time-utc->date->string].
 @section{Changelog}
 
 @itemlist[
-@item{add parse/datetime ... to gregor lib. --2019/12/16}
+@item{add docs for gregor. --2020/02/03}
+@item{add parse/datetime to gregor lib. --2019/12/16}
 @item{add now/sql now/moment/sql today/sql ... to convert lib.}
 @item{rename timeless to timable and add support to gregor and sql-timestamp.}
 @item{splited from chive and name it to timeless only support srfi/19 lib.}
