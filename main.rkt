@@ -27,10 +27,10 @@
 ;; Code here
 
 
-(require (file "./gregor.rkt"
-               "./convert.rkt"))
-(provide (all-from-out (file "./gregor.rkt"
-                             "./convert.rkt")))
+(require (file "./gregor.rkt")
+         (file "./convert.rkt"))
+(provide (all-from-out (file "./gregor.rkt")
+                       (file "./convert.rkt")))
 
 
 (module+ main
