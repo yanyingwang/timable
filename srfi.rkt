@@ -318,10 +318,11 @@
   (check-equal? (date->string (current-date) "~4")
                 (date->string (time-utc->date (make-time time-utc 0 (+ (time-second (days-ago/time 1)) 86400))) "~4"))
 
+
   (check-equal? (date-day (current-date))
-                (+ 1 (date-day (days-ago 1))))
+                (date-day (time-utc->date (add-duration (date->time-utc (days-ago 1)) (day-duration 1)))))
   (check-equal? (date-hour (current-date))
-                (+ 1 (date-hour (hours-ago 1))))
+                (date-hour (time-utc->date (add-duration (date->time-utc (hours-ago 1)) (hour-duration 1)))))
 
   ;; from-now
   (check-equal? (date->string (current-date) "~4")

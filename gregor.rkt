@@ -68,7 +68,7 @@
 (define (years-from-now i #:tz [tz (current-timezone)])
   (+years (now #:tz tz) i))
 (define (days-from-now i #:tz [tz (current-timezone)])
-  (+days (now/utc #:tz tz) i))
+  (+days (now #:tz tz) i))
 (define (hours-from-now i #:tz [tz (current-timezone)])
   (+hours (now #:tz tz) i))
 
@@ -156,21 +156,19 @@
   ;; or with `raco test`. The code here does not run when this file is
   ;; required by another module.
 
-  ;; (check-equal? (date-day (current-date))
-  ;;               (+ 1 (date-day (days-ago 1))))
-  ;; (check-equal? (date-hour (current-date))
-  ;;               (+ 1 (date-hour (hours-ago 1))))
+  (check-equal?
+   (->day (today))
+   (->day (+days (days-ago 1) 1)))
 
-  ;; ;; from-now
-  ;; (check-equal? (date->string (current-date) "~4")
-  ;;               (date->string (time-utc->date (make-time time-utc 0 (- (time-second (hours-from-now/time 1)) 3600))) "~4"))
-  ;; (check-equal? (date->string (current-date) "~4")
-  ;;               (date->string (time-utc->date (make-time time-utc 0 (- (time-second (days-from-now/time 1)) 86400))) "~4"))
+  (check-equal?
+   (->hours (now))
+   (->hours (+hours (hours-ago 1) 1)))
 
-  ;; (check-equal? (date-day (current-date))
-  ;;               (- (date-day (days-from-now 1)) 1))
-  ;; (check-equal? (date-hour (current-date))
-  ;;               (- (date-hour (hours-from-now 1)) 1))
+  ;; from-now
+  (check-equal? (->day (today))
+                (->day (-days (days-from-now 1) 1)))
+  (check-equal? (->hours (now))
+                (->hours (-hours (hours-from-now 1) 1)))
 
 
   ;; prev-day
