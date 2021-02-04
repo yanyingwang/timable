@@ -25,11 +25,9 @@ Procedures that extended from @other-doc['(lib "gregor/scribblings/gregor.scrbl"
 
 @examples[#:eval (the-eval)
 
-(require timable/gregor)
+(require timable/gregor
+         gregor)
 (current-datetime)
-
-@#reader scribble/comment-reader ;----
-(require gregor)
 (prev-day (now))
 (at-beginning/on-month (now))
 (parse/datetime "2018-02-14 12:30:45")
