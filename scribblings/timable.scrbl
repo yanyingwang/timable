@@ -13,9 +13,9 @@ This library provides a bundle of extended functions for racket's various time/d
 }
 
 @itemlist[
-@; @item{source code: @url["https://github.com/yanyingwang/timable"]}
-@item{@smaller{Please use gregor instead of srfi/19 if possible, this lib is tightly sticking with gregor more than srfi/19.}}
-@item{@smaller{@racket[(require timable)] will do the same thing as @racket[(require timable/gregor timable/convert)]}}
+@item{source code: @url["https://github.com/yanyingwang/timable"]}
+@item{@smaller{Please use gregor instead of srfi/19 if possible, since this lib is tightly sticking with gregor.}}
+@item{@smaller{@racket[(require timable)] is same as @racket[(require timable/gregor timable/convert)]}}
 ]
 
 
