@@ -6,7 +6,7 @@
                      timable/convert)
            scribble/eval)
 
-@(define time-eval
+@(define the-eval
    (make-eval-factory '(timable/srfi
                         timable/convert
                         timable/gregor)))
@@ -32,7 +32,7 @@ extend racket's various time/date libs and make them be able to work together mo
 @section{Procedures extended from gregor}
 @defmodule[timable/gregor]
 @examples[
-#:eval (time-eval)
+#:eval (the-eval)
 (require timable/gregor)
 
 (current-date)
@@ -56,110 +56,59 @@ extend racket's various time/date libs and make them be able to work together mo
 (parse/datetime "2018/02-14 12-30 45")
 ]
 
-
-@defproc[(current-date) date?]{
-an alias procedure of @racket[today].
+@deftogether[(
+@defproc[(current-date) date?]
+@defproc[(current-datetime) datetime?]
+@defproc[(current-datetime/utc) moment?]
+@defproc[(current-moment) moment?]
+@defproc[(current-moment/utc) moment?]
+)]{
+@racket[current-date] is an alias procedure of @racket[today]. @[linebreak]
+@racket[current-datetime] is an alias procedure of @racket[now]. @[linebreak]
+@racket[current-datetime/utc] is an alias procedure of @racket[now/utc]. @[linebreak]
+@racket[current-moment] is an alias procedure of @racket[now/moment]. @[linebreak]
+@racket[current-moment/utc] is an alias procedure of @racket[now/moment/utc].
 }
 
-@defproc[(current-datetime) datetime?]{
-an alias procedure of @racket[now].
+@deftogether[(
+@defproc[(years-ago [n integer?]) datetime?]
+@defproc[(days-ago [n integer?]) datetime?]
+@defproc[(hours-ago [n integer?]) datetime?]
+@defproc[(years-ago/utc [n integer?]) datetime?]
+@defproc[(days-ago/utc [n integer?]) datetime?]
+@defproc[(hours-ago/utc [n integer?]) datetime?]
+)]{
+return a previous datetime.
 }
 
-@defproc[(current-moment) moment?]{
-an alias procedure of @racket[now/moment].
-}
+@deftogether[(
+@defproc[(years-from-now [n integer?]) datetime?]
+@defproc[(days-from-now [n integer?]) datetime?]
+@defproc[(hours-from-now [n integer?]) datetime?]
+@defproc[(years-from-now/utc [n integer?]) datetime?]
+@defproc[(days-from-now/utc [n integer?]) datetime?]
+@defproc[(hours-from-now/utc [n integer?]) datetime?]
+)]
 
-@defproc[(current-datetime/utc) moment?]{
-use it as the literal meaning of the function name.
-}
+@deftogether[(
+@defproc[(prev-day [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]
+@defproc[(next-day [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]
+@defproc[(prev-month [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]
+@defproc[(next-month [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]
+@defproc[(prev-year [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]
+@defproc[(next-year [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]
+)]
 
-@defproc[(current-moment/utc) moment?]{
-an alias procedure of @racket[now/moment/utc].
-}
-
-
-@defproc[(years-ago [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(days-ago [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(hours-ago [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(years-ago/utc [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(days-ago/utc [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(hours-ago/utc [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
+@deftogether[(
+@defproc[(at-beginning/on-day [t (or/c date? time? datetime? moment?)]) datetime?]
+@defproc[(at-end/on-day [t (or/c date? time? datetime? moment?)]) datetime?]
+@defproc[(at-beginning/on-month [t (or/c date? time? datetime? moment?)]) datetime?]
+@defproc[(at-end/on-month [t (or/c date? time? datetime? moment?)]) datetime?]
+@defproc[(at-beginning/on-year [t (or/c date? time? datetime? moment?)]) datetime?]
+@defproc[(at-end/on-year [t (or/c date? time? datetime? moment?)]) datetime?]
+)]
 
 
-@defproc[(years-from-now [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(days-from-now [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(hours-from-now [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(years-from-now/utc [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(days-from-now/utc [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(hours-from-now/utc [n integer?]) datetime?]{
-use it as the literal meaning of the function name.
-}
-
-@defproc[(prev-day [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]{
-use it as the literal meaning of the function name.
-}
-@defproc[(next-day [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]{
-use it as the literal meaning of the function name.
-}
-
-@defproc[(prev-month [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]{
-use it as the literal meaning of the function name.
-}
-@defproc[(next-month [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]{
-use it as the literal meaning of the function name.
-}
-
-@defproc[(prev-year [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]{
-use it as the literal meaning of the function name.
-}
-@defproc[(next-year [t (or/c date? time? datetime? moment?)]) (or/c date? time? datetime? moment?)]{
-use it as the literal meaning of the function name.
-}
-
-@defproc[(at-beginning/on-day [t (or/c date? time? datetime? moment?)]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(at-end/on-day [t (or/c date? time? datetime? moment?)]) datetime?]{
-use it as the literal meaning of the function name.
-}
-
-
-@defproc[(at-beginning/on-month [t (or/c date? time? datetime? moment?)]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(at-end/on-month [t (or/c date? time? datetime? moment?)]) datetime?]{
-use it as the literal meaning of the function name.
-}
-
-
-@defproc[(at-beginning/on-year [t (or/c date? time? datetime? moment?)]) datetime?]{
-use it as the literal meaning of the function name.
-}
-@defproc[(at-end/on-year [t (or/c date? time? datetime? moment?)]) datetime?]{
-use it as the literal meaning of the function name.
-}
 
 @defproc[(->utc-offset/hours [m moment?]) number?]{
 return a number stands for the utc offset hours. While @racket[->utc-offset] returns the seconds.
@@ -175,7 +124,7 @@ try to parse @litchar{str} and return a @racket[datetime] for it.
 @section{Procedures of converting date/time types}
 @defmodule[timable/convert]
 @examples[
-#:eval (time-eval)
+#:eval (the-eval)
 (require gregor)
 
 (->sql-timestamp (today))
@@ -189,45 +138,31 @@ try to parse @litchar{str} and return a @racket[datetime] for it.
 (now/moment/sql #:tz "Asia/Shanghai")
 ]
 
-@defproc[(date->sql-timestamp [d date?]) sql-timestamp?]{
-convert @italic{d} from gregor date to sql-timestamp.
-}
-
-@defproc[(datetime->sql-timestamp [d datetime?]) sql-timestamp?]{
-convert @italic{d} from gregor datetime to sql-timestamp.
-}
-
-@defproc[(moment->sql-timestamp [d moment?]) sql-timestamp?]{
+@deftogether[(
+@defproc[(date->sql-timestamp [d date?]) sql-timestamp?]
+@defproc[(datetime->sql-timestamp [d datetime?]) sql-timestamp?]
+@defproc[(moment->sql-timestamp [d moment?]) sql-timestamp?]
+@defproc[(->sql-timestamp [d (or/c date? datetime? moment?)]) sql-timestamp?]
+)]{
 convert @italic{d} from gregor moment to sql-timestamp.
 }
 
-@defproc[(->sql-timestamp [d (or/c date? datetime? moment?)]) sql-timestamp?]{
-convert @italic{d} from gregor moment to sql-timestamp.
+@deftogether[(
+@defproc[(current-datetime/sql [d datetime?])  sql-timestamp?]
+@defproc[(current-moment/sql [d moment?]) sql-timestamp?]
+@defproc[(today/sql [d date?]) sql-date?]
+)]{
+use @racket[current-datetime/sql] to return @racket[current-datetime] in sql-timestamp type.
+use @racket[current-moment/sql] to return @racket[current-moment] in sql-timestamp-tz type.
+use @racket[today/sql] to return @racket[today] in sql-date type.
 }
-
-
-@defproc[(current-datetime/sql [d datetime?])  sql-timestamp?]{
-return @racket[current-datetime] in sql-timestamp type.
-}
-
-
-@defproc[(current-moment/sql [d moment?]) sql-timestamp?]{
-return @racket[current-moment] in sql-timestamp-tz type.
-}
-
-@defproc[(today/sql [d date?]) sql-date?]{
-return @racket[today] in sql-date type.
-}
-
-
-
 
 @; --------------------------------------------------------------------------------------------------
 @section{Procedures extended from srfi/19}
 @defmodule[timable/srfi]
 
 @examples[
-#:eval (time-eval)
+#:eval (the-eval)
 (require srfi/19)
 (require timable/srfi)
 
