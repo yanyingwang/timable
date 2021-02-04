@@ -18,10 +18,10 @@
          current-datetime
          current-moment
          current-datetime/utc current-moment/utc
-         years-ago days-ago hours-ago
-         years-ago/utc days-ago/utc hours-ago/utc
-         years-from-now days-from-now hours-from-now
-         years-from-now/utc days-from-now/utc hours-from-now/utc
+         years-ago months-ago days-ago hours-ago
+         years-ago/utc months-ago/utc days-ago/utc hours-ago/utc
+         years-from-now months-from-now days-from-now hours-from-now
+         years-from-now/utc months-from-now/utc days-from-now/utc hours-from-now/utc
          prev-day next-day
          prev-month next-month
          prev-year next-year
@@ -53,6 +53,8 @@
 ;; refactor with define-syntax and add more seconds-ago nano-seconds-ago and from-now
 (define (years-ago i #:tz [tz (current-timezone)])
   (-years (now #:tz tz) i))
+(define (months-ago i #:tz [tz (current-timezone)])
+  (-months (now #:tz tz) i))
 (define (days-ago i #:tz [tz (current-timezone)])
   (-days (now #:tz tz) i))
 (define (hours-ago i #:tz [tz (current-timezone)])
@@ -60,6 +62,8 @@
 
 (define (years-ago/utc i)
   (-years (now/utc) i))
+(define (months-ago/utc i)
+  (-months (now/utc) i))
 (define (days-ago/utc i)
   (-days (now/utc) i))
 (define (hours-ago/utc i)
@@ -67,6 +71,8 @@
 
 (define (years-from-now i #:tz [tz (current-timezone)])
   (+years (now #:tz tz) i))
+(define (months-from-now i #:tz [tz (current-timezone)])
+  (+months (now #:tz tz) i))
 (define (days-from-now i #:tz [tz (current-timezone)])
   (+days (now #:tz tz) i))
 (define (hours-from-now i #:tz [tz (current-timezone)])
@@ -74,6 +80,8 @@
 
 (define (years-from-now/utc i)
   (+years (now/utc) i))
+(define (months-from-now/utc i)
+  (+months (now/utc) i))
 (define (days-from-now/utc i)
   (+days (now/utc) i))
 (define (hours-from-now/utc i)

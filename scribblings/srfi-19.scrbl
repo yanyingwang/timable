@@ -13,7 +13,7 @@
 
 
 
-@title[#:tag "srfi-19"]{extended srfi/19}
+@title[#:tag "extented-srfi/19"]{Extended srfi/19}
 @declare-exporting[timable]
 Procedures that extended from @secref["srfi-19" #:doc '(lib "srfi/scribblings/srfi.scrbl")].
 

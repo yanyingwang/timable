@@ -21,7 +21,8 @@ jobs:
       - run: raco test ./gregor.rkt
       - name: build docs
         run: |
-          raco scribble --dest docs --dest-name index ++main-xref-in --redirect-main https://docs.racket-lang.org/ scribblings/timable.scrbl
+          # raco scribble --dest docs --dest-name index ++main-xref-in --redirect-main https://docs.racket-lang.org/ scribblings/timable.scrbl
+          raco scribble --htmls --dest-name docs ++main-xref-in --redirect-main https://docs.racket-lang.org/ scribblings/timable.scrbl
       - name: Deploy to GitHub Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v1.2.5

@@ -13,12 +13,12 @@
 
 
 
-@title[#:tag "gregor"]{extended gregor}
+@title[#:tag "extended-gregor"]{Extended gregor}
 @declare-exporting[timable]
 
 
 @; --------------------------------------------------------------------------------------------------
-@section{extended gregor}
+@section{from base gregor}
 Procedures that extended from @other-doc['(lib "gregor/scribblings/gregor.scrbl")].
 
 @defmodule[timable/gregor]
@@ -42,10 +42,10 @@ Procedures that extended from @other-doc['(lib "gregor/scribblings/gregor.scrbl"
 @defproc[(current-moment) moment?]
 @defproc[(current-moment/utc) moment?]
 )]{
-@racket[current-date] is an alias procedure of @racket[today].  @[linebreak]
-@racket[current-datetime] is an alias procedure of @racket[now].  @[linebreak]
-@racket[current-datetime/utc] is an alias procedure of @racket[now/utc].  @[linebreak]
-@racket[current-moment] is an alias procedure of @racket[now/moment].  @[linebreak]
+@racket[current-date] is an alias procedure of @racket[today].  @(linebreak)
+@racket[current-datetime] is an alias procedure of @racket[now].  @(linebreak)
+@racket[current-datetime/utc] is an alias procedure of @racket[now/utc].  @(linebreak)
+@racket[current-moment] is an alias procedure of @racket[now/moment].  @(linebreak)
 @racket[current-moment/utc] is an alias procedure of @racket[now/moment/utc].
 
 @examples[#:eval (the-eval)
@@ -57,16 +57,18 @@ Procedures that extended from @other-doc['(lib "gregor/scribblings/gregor.scrbl"
 
 @deftogether[(
 @defproc[(years-ago [n integer?]) datetime?]
+@defproc[(months-ago [n integer?]) datetime?]
 @defproc[(days-ago [n integer?]) datetime?]
 @defproc[(hours-ago [n integer?]) datetime?]
 @defproc[(years-ago/utc [n integer?]) datetime?]
+@defproc[(months-ago/utc [n integer?]) datetime?]
 @defproc[(days-ago/utc [n integer?]) datetime?]
 @defproc[(hours-ago/utc [n integer?]) datetime?]
 )]{
 @examples[#:eval (the-eval)
 (now)
 (hours-ago 1)
-@; (months-ago 3)
+(months-ago 3)
 (years-ago 1)
 (hours-ago/utc 1)
 ]}
@@ -124,7 +126,7 @@ Return a number stands for the utc offset hours. While @racket[->utc-offset] ret
 ]}
 
 @defproc[(parse/datetime [str string?]) datetime?]{
-Parse @litchar{str} and return a @racket[datetime] for it.
+Parse @italic{str} and return a @racket[datetime] for it.
 
 @examples[#:eval (the-eval)
 (parse/datetime "2018-02-14 12:30:45")
@@ -135,7 +137,7 @@ Parse @litchar{str} and return a @racket[datetime] for it.
 
 
 @; --------------------------------------------------------------------------------------------------
-@section{converting between sql and gregor}
+@section{from converting between sql and gregor}
 Functions that converting between  @secref["mysql-types" #:doc '(lib "db/scribblings/db.scrbl")] and @other-doc['(lib "gregor/scribblings/gregor.scrbl")].
 
 @defmodule[timable/convert]
@@ -173,15 +175,13 @@ Convert @italic{d} from gregor moment to sql-timestamp.
 @defproc[(current-moment/sql [d moment?]) sql-timestamp?]
 @defproc[(current-date/sql [d date?]) sql-date?]
 )]{
-Use @racket[current-datetime/sql] as an alias of @racket[now/sql] to return @racket[now] in @racket[sql-timestamp] type.  @[linebreak]
-Use @racket[current-moment/sql] as an alias of @racket[now/moment/sql] to return @racket[now/moment] in @racket[sql-timestamp-tz] type.  @[linebreak]
-Use @racket[current-date/sql] as an alias of @racket[today/sql] to return @racket[today] in @racket[sql-date] type.  @[linebreak]
+Use @racket[current-datetime/sql] as an alias of @racket[now/sql] to return @racket[now] in @racket[sql-timestamp] type.  @(linebreak)
+Use @racket[current-moment/sql] as an alias of @racket[now/moment/sql] to return @racket[now/moment] in @racket[sql-timestamp-tz] type.  @(linebreak)
+Use @racket[current-date/sql] as an alias of @racket[today/sql] to return @racket[today] in @racket[sql-date] type.  @(linebreak)
 
 @examples[#:eval (the-eval)
 (today)
 (today/sql)
 (now/sql)
-@#reader scribble/comment-reader ;----
-(now/moment)
 (now/moment/sql #:tz "Asia/Shanghai")
 ]}
