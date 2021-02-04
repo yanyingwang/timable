@@ -21,24 +21,24 @@ Procedures that extended from @secref["srfi-19" #:doc '(lib "srfi/scribblings/sr
 @defmodule[timable/srfi]
 
 
-@; @examples[
-@; #:eval (the-eval)
-@; (require srfi/19)
-@; (require timable/srfi)
+@examples[
+#:eval the-eval
+(require srfi/19)
+(require timable/srfi)
 
-@; (hours-ago 5)
-@; (time-in-range? (current-time) (hours-ago/time 1) (hours-from-now/time 1))
-@; (last-oclock (current-date))
-@; (last-oclock/time (current-time))
-@; (oclocks-between (hours-ago 2) (hours-ago 5))
-@; (oclocks-between/time (hours-ago/time 2) (hours-ago/time 5))
+(hours-ago 5)
+(time-in-range? (current-time) (hours-ago/time 1) (hours-from-now/time 1))
+(last-oclock (current-date))
+(last-oclock/time (current-time))
+(oclocks-between (hours-ago 2) (hours-ago 5))
+(oclocks-between/time (hours-ago/time 2) (hours-ago/time 5))
 
-@; (beginning-date (current-date))
-@; (beginning-date/month (current-date))
-@; (beginning-date/year (current-date))
-@; (date->string (date-parse "2018-01-01 11:11:11 +0800"))
-@; (date->string (date-parse "2018/01/01 12"))
-@; ]
+(beginning-date (current-date))
+(beginning-date/month (current-date))
+(beginning-date/year (current-date))
+(date->string (date-parse "2018-01-01 11:11:11 +0800"))
+(date->string (date-parse "2018/01/01 12"))
+]
 
 
 @defthing[unix-epoch-time time?]{
