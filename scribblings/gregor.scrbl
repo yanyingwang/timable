@@ -1,11 +1,17 @@
 #lang scribble/manual
 
 @(require (for-label gregor
-                     @; racket/base
+                     (except-in racket/base date date? time)
+                     (prefix-in base: (only-in racket/base date))
+                     racket/contract
                      db
                      timable/gregor
                      timable/convert)
            scribble/eval)
+
+
+
+
 @(define the-eval
    (make-eval-factory '(gregor
                         timable/convert

@@ -4,6 +4,7 @@
           (for-label (except-in racket/base date date? time)
                      (prefix-in base: (only-in racket/base date))
                      racket/contract
+                     @; racket/base
                      @; srfi/19
                      timable/srfi))
 

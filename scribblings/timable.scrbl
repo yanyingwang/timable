@@ -22,7 +22,6 @@ This library provides a bundle of extended functions for racket's various time/d
 @(table-of-contents)
 
 
-
 @include-section["gregor.scrbl"]
 @include-section["srfi-19.scrbl"]
 

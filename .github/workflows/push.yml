@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        racket-version: [ "7.4", "7.5" ]
+        racket-version: [ "7.9" ]
         racket-variant: [ "regular", "CS" ]
     name: "CI using Racket ${{ matrix.racket-version }} (${{ matrix.racket-variant }})"
     steps:
@@ -22,7 +22,13 @@ jobs:
       - name: build docs
         run: |
           # raco scribble --dest docs --dest-name index ++main-xref-in --redirect-main https://docs.racket-lang.org/ scribblings/timable.scrbl
-          raco scribble --htmls --dest-name docs ++main-xref-in --redirect-main https://docs.racket-lang.org/ scribblings/timable.scrbl
+          raco scribble --htmls \
+                        --dest-name docs \
+                        ++main-xref-in \
+                        --redirect-main https://docs.racket-lang.org/ \
+                        --redirect https://docs.racket-lang.org/local-redirect/index.html \
+                        scribblings/timable.scrbl
+
       - name: Deploy to GitHub Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v1.2.5
