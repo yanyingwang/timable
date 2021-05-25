@@ -9,15 +9,14 @@
                      timable/convert)
            scribble/eval)
 
-
-
-
 @(define the-eval
    (make-eval-factory '(gregor
                         timable/convert
                         timable/gregor)))
 
 
+@require[scribble-rainbow-delimiters]
+@script/rainbow-delimiters*
 
 @title[#:tag "extended-gregor"]{Extended gregor}
 @declare-exporting[timable]

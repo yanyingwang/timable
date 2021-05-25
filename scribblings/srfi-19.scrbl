@@ -13,6 +13,8 @@
 @;                      timable/srfi))
 
 
+@require[scribble-rainbow-delimiters]
+@script/rainbow-delimiters*
 
 @title[#:tag "extented-srfi/19"]{Extended srfi/19}
 @declare-exporting[timable]

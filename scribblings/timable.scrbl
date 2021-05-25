@@ -1,9 +1,6 @@
 #lang scribble/manual
 
 
-@require[scribble-rainbow-delimiters]
-@script/rainbow-delimiters*
-
 @title{timable}
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
 @defmodule[timable]
