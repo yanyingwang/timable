@@ -105,18 +105,18 @@
 
 (define (at-beginning/on-day d)
   (cond
-    (datetime? d)
-    (datetime (->year d) (->month d) (->day d) 0 0 0 0)
-    (moment? d)
-    (moment? (->year d) (->month d) (->day d) 0 0 0 0 #:tz (->utc-offset d))
-    (else (raise-argument-error 'at-beginning/on-day "(or datetime? moment?)") d)))
+    [(datetime? d)
+    (datetime (->year d) (->month d) (->day d) 0 0 0 0)]
+    [(moment? d)
+     (moment (->year d) (->month d) (->day d) 0 0 0 0 #:tz (->utc-offset d))]
+    [else (raise-argument-error 'at-beginning/on-day "(or datetime? moment?)") d]))
 (define (at-end/on-day d)
-  (cond
-    (datetime? d)
-    (datetime (->year d) (->month d) (->day d) 23 59 59 999999999)
-    (moment? d)
-    (moment? (->year d) (->month d) (->day d) 23 59 59 999999999 #:tz (->utc-offset d))
-    (else (raise-argument-error 'at-beginning/on-day "(or datetime? moment?)") d)))
+  [cond
+    [(datetime? d)
+    (datetime (->year d) (->month d) (->day d) 23 59 59 999999999)]
+    [(moment? d)
+     (moment (->year d) (->month d) (->day d) 23 59 59 999999999 #:tz (->utc-offset d))]
+    [else (raise-argument-error 'at-beginning/on-day "(or datetime? moment?)") d]])
 
 (define (at-beginning/on-month d)
   (cond
@@ -125,7 +125,7 @@
     [(datetime? d)
      (datetime (->year d) (->month d) 1 0 0 0 0)]
     [(moment? d)
-     (moment? (->year d) (->month d) 1 0 0 0 0 #:tz (->utc-offset d))]
+     (moment (->year d) (->month d) 1 0 0 0 0 #:tz (->utc-offset d))]
     [else (raise-argument-error 'at-beginning/on-day "(or date? datetime? moment?)") d]))
 
 (define (at-end/on-month d)
@@ -135,7 +135,7 @@
     [(datetime? d)
      (datetime (->year d) (->month d) (days-in-month (->year d) (->month d)) 23 59 59 999999999)]
     [(moment? d)
-     (moment? (->year d) (->month d) (days-in-month (->year d) (->month d)) 23 59 59 999999999 #:tz (->utc-offset d))]
+     (moment (->year d) (->month d) (days-in-month (->year d) (->month d)) 23 59 59 999999999 #:tz (->utc-offset d))]
     [else (raise-argument-error 'at-beginning/on-day "(or date? datetime? moment?)") d]))
 
 (define (at-beginning/on-year d)
@@ -145,7 +145,7 @@
     [(datetime? d)
      (datetime (->year d) 1 1 0 0 0 0)]
     [(moment? d)
-     (moment? (->year d) 1 1 0 0 0 0 #:tz (->utc-offset d))]
+     (moment (->year d) 1 1 0 0 0 0 #:tz (->utc-offset d))]
     [else (raise-argument-error 'at-beginning/on-day "(or date? datetime? moment?)") d]))
 (define (at-end/on-year d)
   (cond
@@ -156,6 +156,7 @@
     [(moment? d)
      (datetime (->year d) 12 (days-in-month (->year d) 12) 23 59 59 999999999 #:tz (->utc-offset d))]
     [else (raise-argument-error 'at-beginning/on-day "(or date? datetime? moment?)") d]))
+
 
 
 (define (parse/datetime str)
