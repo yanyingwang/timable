@@ -103,12 +103,12 @@ Procedures that extended from @other-doc['(lib "gregor/scribblings/gregor.scrbl"
 ]}
 
 @deftogether[(
-@defproc[(at-beginning/on-day [t (or/c date? time? datetime? moment?)]) datetime?]
-@defproc[(at-end/on-day [t (or/c date? time? datetime? moment?)]) datetime?]
-@defproc[(at-beginning/on-month [t (or/c date? time? datetime? moment?)]) datetime?]
-@defproc[(at-end/on-month [t (or/c date? time? datetime? moment?)]) datetime?]
-@defproc[(at-beginning/on-year [t (or/c date? time? datetime? moment?)]) datetime?]
-@defproc[(at-end/on-year [t (or/c date? time? datetime? moment?)]) datetime?]
+@defproc[(at-beginning/on-day [t (or/c date? datetime? moment?)]) (or/c datetime? moment?)]
+@defproc[(at-end/on-day [t (or/c date? datetime? moment?)]) (or/c datetime? moment?)]
+@defproc[(at-beginning/on-month [t (or/c date? datetime? moment?)]) (or/c datetime? moment?)]
+@defproc[(at-end/on-month [t (or/c date? datetime? moment?)]) (or/c date? datetime? moment?)]
+@defproc[(at-beginning/on-year [t (or/c date? datetime? moment?)]) (date? or/c datetime? moment?)]
+@defproc[(at-end/on-year [t (or/c date? datetime? moment?)]) (or/c date? datetime? moment?)]
 )]{
 @examples[#:eval (the-eval)
 (now)
